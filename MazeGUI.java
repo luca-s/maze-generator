@@ -73,7 +73,7 @@ public class MazeGUI extends JFrame {
 		JMenuBar barra = new JMenuBar();
 		barra.add(action());
 		barra.add(view());
-		barra.add(color());
+		barra.add(color());		
 		return barra;
 	}
 
@@ -150,62 +150,21 @@ public class MazeGUI extends JFrame {
 	}
 
 	private JMenu color() {
-		// ciascuno di questi menuItem se premuto provoca
-		// la chiamata al metodo setBackground del graphicMaze
-		// visualizzato in questo momento
-		JMenuItem blue = new JMenuItem("Blue");
-		blue.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		ColorChooserButton colorChooser = new ColorChooserButton(Color.WHITE);
+		colorChooser.setText("Select your colour");
+		colorChooser.addColorChangedListener(new ColorChooserButton.ColorChangedListener() {
+		    @Override
+		    public void colorChanged(Color newColor) {
 				if (!is3D)
-					labirinth2D.setColor(Color.blue);
+					labirinth2D.setColor(newColor);
 				else
-					labirinth3D.setColor(Color.blue);
-			}
+					labirinth3D.setColor(newColor);
+		    }
 		});
-		JMenuItem white = new JMenuItem("White");
-		white.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (!is3D)
-					labirinth2D.setColor(Color.white);
-				else
-					labirinth3D.setColor(Color.white);
-			}
-		});
-		JMenuItem orange = new JMenuItem("orange");
-		orange.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (!is3D)
-					labirinth2D.setColor(Color.orange);
-				else
-					labirinth3D.setColor(Color.orange);
-			}
-		});
-		JMenuItem yellow = new JMenuItem("Yellow");
-		yellow.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (!is3D)
-					labirinth2D.setColor(Color.yellow);
-				else
-					labirinth3D.setColor(Color.yellow);
-			}
-		});
-		JMenuItem pink = new JMenuItem("Pink");
-		pink.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				if (!is3D)
-					labirinth2D.setColor(Color.pink);
-				else
-					labirinth3D.setColor(Color.pink);
-			}
-		});
-
+		
 		JMenu color = new JMenu("Color");
 		color.setMnemonic(KeyEvent.VK_C);
-		color.add(blue);
-		color.add(white);
-		color.add(orange);
-		color.add(yellow);
-		color.add(pink);
+		color.add(colorChooser);
 
 		return color;
 	}
