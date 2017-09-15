@@ -90,39 +90,40 @@ public class graphicMaze2D extends graphicMaze implements KeyListener,
 
 		setColor(backgroundColor);
 		b.setXORMode(Color.magenta);
-		DeepFirstSearch(null, fromBeginning ? maze[0][0] : player);
+		DepthFirstSearch(null, fromBeginning ? maze[0][0] : player);
 		b.setPaintMode();
 
 		repaint();
 	}
 
-	private boolean DeepFirstSearch(MazeNode prew, MazeNode current) {
+	private boolean DepthFirstSearch(MazeNode prew, MazeNode current) {
 
 		if (current == null)
 			return false;
 
-		boolean n = false, s = false, w = false, e = false;
-
-		b.fillRect(current.column * zoom, current.row * zoom, zoom, zoom);
-
+		boolean found = false;
+		
 		if (current == exit)
-			return true;
+			found = true;
+		
+		if (!found && current.north != prew)
+			found = DepthFirstSearch(current, current.north);
+		
+		if (!found && current.south != prew)
+			found = DepthFirstSearch(current, current.south);
+			
+		if (!found && current.west != prew)
+			found = DepthFirstSearch(current, current.west);
+		
+		if (!found && current.east != prew)
+			found = DepthFirstSearch(current, current.east);
 
-		if (current.north != prew)
-			n = DeepFirstSearch(current, current.north);
-		if (current.south != prew)
-			s = DeepFirstSearch(current, current.south);
-		if (current.west != prew)
-			w = DeepFirstSearch(current, current.west);
-		if (current.east != prew)
-			e = DeepFirstSearch(current, current.east);
-
-		if (!(n | s | w | e))// se non faccio parte del cammino d'uscita mi cancello
+		if (found) // if I am part of the exit path, colour myself
 		{
 			b.fillRect(current.column * zoom, current.row * zoom, zoom, zoom);
 		}
 		
-		return n | s | w | e;
+		return found;
 	}
 
 	// gestione degli eventi
