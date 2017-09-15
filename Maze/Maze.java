@@ -57,20 +57,19 @@ public class Maze {
 		// Start building the maze from a random cell
 		int row    = random.nextInt(length);
 		int column = random.nextInt(width);
-		int currentIdx = -1;
 		
 		MazeNode newCell = new MazeNode(row, column);
+		int currentIdx = -1;
 		
 		// until we have visited all the cells in the maze
 		while (visitedCells.size() < length * width)
 		{
 			
-			
 			if (newCell != null)
 			{
 				// Save the last built cell
-				visitedCells.add(newCell);
 				maze[newCell.row][newCell.column] = newCell;
+				visitedCells.add(newCell);
 				
 				// Use last cell as current one
 				currentIdx = visitedCells.size() -1;
