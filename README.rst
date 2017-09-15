@@ -9,3 +9,6 @@ A maze generator game
 
 .. image:: https://github.com/luca-s/maze-generator/raw/master/gui3.png
 
+
+.. image:: https://github.com/luca-s/maze-generator/raw/master/gui4.png
+
