@@ -1,7 +1,8 @@
 package Maze;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
-
 
 /**
  * Questa classe genera labirinti rettangolari di dimensione width * length Il
@@ -49,89 +50,93 @@ public class Maze {
 
 	static private MazeNode[][] buildMaze(int length, int width) {
 
-		// scelgo che algoritmo utilizzare per creare il labirinto
-		// si pu� anche fare casuale ma l'2 � quello con risultati migliori
-		int algorithmNumber = 2;// aCaso.nextInt(3);
-		
+		// Create an empty initial maze, we will add a cell a time
 		MazeNode[][] maze = new MazeNode[length][width];
-		MazeNode[] stack = new MazeNode[length * width];
-		int stackElements = 0;
-		int stackBeginning = 0;
-				
+		List<MazeNode> visitedCells = new ArrayList<MazeNode>();
+
+		// Start building the maze from a random cell
 		int row    = random.nextInt(length);
 		int column = random.nextInt(width);
-
-		MazeNode  current = stack[stackElements++] = maze[row][column] = new MazeNode(row, column);
-
-		while (stackElements > stackBeginning) // until there are elements in the stack
+		int currentIdx = -1;
+		
+		MazeNode newCell = new MazeNode(row, column);
+		
+		// until we have visited all the cells in the maze
+		while (visitedCells.size() < length * width)
 		{
-
-			int randomInt = random.nextInt(4);
 			
-			// look for an unused cell next to the current one and connect it (if any)
-			search:
-			for (int i = 0; i < 4; i++)
+			
+			if (newCell != null)
 			{
-				Direction randomDirection = Direction.fromInt( (randomInt + i) % 4 );
+				// Save the last built cell
+				visitedCells.add(newCell);
+				maze[newCell.row][newCell.column] = newCell;
 				
-				switch (randomDirection) {
-				case NORTH:
-					if (row <= 0 || maze[row - 1][column] != null)
-						continue;
-					row--;
-					maze[row][column] = new MazeNode(null, current, null, null, row, column);
-					break search;
-				case SOUTH:
-					if (row >= length - 1 || maze[row + 1][column] != null)
-						continue;
-					row++;
-					maze[row][column] = new MazeNode(current, null, null, null, row, column);
-					break search;
-				case WEST:
-					if (column <= 0 || maze[row][column - 1] != null)
-						continue;
-					column--;
-					maze[row][column] = new MazeNode(null, null, null, current, row, column);
-					break search;
-				case EAST:
-					if (column >= width - 1 || maze[row][column + 1] != null)
-						continue;
-					column++;
-					maze[row][column] = new MazeNode(null, null, current, null, row, column);
-					break search;
-				}
+				// Use last cell as current one
+				currentIdx = visitedCells.size() -1;
 			}
-
-			// if there are no more unused cells around current one, then move to another cell
-			if (current == maze[row][column])
-				// in base all'algoritmo decido da che cella riprendere
-				switch (algorithmNumber) {
-				case 0:// utilizzo lo stack come coda
-					current = stack[stackBeginning++];
-					row = current.row;
-					column = current.column;
-					break;
-				case 1:// utilizzo lo stack come stack
-					stackElements--;
-					if (stackElements > stackBeginning) {
-						row = stack[stackElements - 1].row;
-						column = stack[stackElements - 1].column;
-						current = stack[stackElements - 1];
-					}
-					break;
-				case 2:// utilizzo lo stack anche come coda a turno
-					int i = random.nextInt(2);
-					if (i % 2 == 0)
-						current = stack[stackBeginning++];
-					else
-						current = stack[--stackElements - 1];
-					row = current.row;
-					column = current.column;
-					break;
-				}
 			else
-				current = stack[stackElements++] = maze[row][column];
+			{
+				currentIdx--;
+			}
+			
+			if (currentIdx < 0)
+			{
+				// Pick a random cell from the already visited ones
+				currentIdx = random.nextInt(visitedCells.size());
+			}
+			
+			MazeNode current = visitedCells.get(currentIdx);
+			newCell = null;
 
+			/*
+			 * look for an unused cell next to the current one and connect to it
+			 * (if any)
+			 */
+			Direction randomDirection = Direction.fromInt(random.nextInt(4));
+			boolean clowise = random.nextInt(2) == 0;
+
+			for (int i = 0; i < 4; i++) // look around in the 4 directions
+			{
+				row    = current.row;
+				column = current.column;
+				
+				if (randomDirection == Direction.NORTH)
+				{
+					row--;
+					if (row < 0 || maze[row][column] != null)
+						continue;
+					newCell = new MazeNode(null, current, null, null, row, column);
+				}
+				else if (randomDirection == Direction.SOUTH)
+				{
+					row++;
+					if (row >= length || maze[row][column] != null)
+						continue;
+					newCell = new MazeNode(current, null, null, null, row, column);
+				}
+				else if (randomDirection == Direction.WEST)
+				{
+					column--;
+					if (column < 0 || maze[row][column] != null)
+						continue;
+					newCell = new MazeNode(null, null, null, current, row, column);
+				}
+				else if (randomDirection == Direction.EAST)
+				{
+					column++;
+					if (column >= width || maze[row][column] != null)
+						continue;
+					newCell = new MazeNode(null, null, current, null, row, column);
+				}
+
+				// look around
+				if (clowise)
+					randomDirection = randomDirection.left();
+				else
+					randomDirection = randomDirection.right();
+			}
+								
 		}
 
 		return maze;
