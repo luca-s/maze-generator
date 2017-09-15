@@ -67,8 +67,8 @@ public class graphicMaze3D extends graphicMaze implements KeyListener,
 
 		while (current != null) {
 
-			leftSide = current.nextCell(lookAt.left());
-			rightSide = current.nextCell(lookAt.right());
+			leftSide = current.getNeighbour(lookAt.left());
+			rightSide = current.getNeighbour(lookAt.right());
 
 			// disegno la parete sinistra
 			if (leftSide == null) {// se c'e' il muro
@@ -156,7 +156,7 @@ public class graphicMaze3D extends graphicMaze implements KeyListener,
 			b.setColor(crigth);
 			b.fillPolygon(rx, ry, 4);
 
-			current = current.nextCell(lookAt);
+			current = current.getNeighbour(lookAt);
 			if (current == exit && lookAt == Direction.EAST) {
 				cfront = Color.black;
 				break;

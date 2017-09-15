@@ -56,13 +56,11 @@ public class graphicMaze2D extends graphicMaze implements KeyListener,
 				if (maze[y][x].north == null)// se c'e' il muro nord lo disegno
 					b.drawLine(x * zoom, y * zoom, (x + 1) * zoom, y * zoom);
 				if (maze[y][x].south == null)// se c'e' il muro sud lo disegno
-					b.drawLine(x * zoom, (y + 1) * zoom, (x + 1) * zoom,
-							(y + 1) * zoom);
+					b.drawLine(x * zoom, (y + 1) * zoom, (x + 1) * zoom, (y + 1) * zoom);
 				if (maze[y][x].west == null)// se c'e' il muro ovest lo disegno
 					b.drawLine(x * zoom, y * zoom, x * zoom, (y + 1) * zoom);
 				if (maze[y][x].east == null)// se c'e' il muro est lo disegno
-					b.drawLine((x + 1) * zoom, y * zoom, (x + 1) * zoom,
-							(y + 1) * zoom);
+					b.drawLine((x + 1) * zoom, y * zoom, (x + 1) * zoom, (y + 1) * zoom);
 			}
 		// disegno il giocatore
 		if (player != null) {

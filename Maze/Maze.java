@@ -105,35 +105,39 @@ public class Maze {
 					row--;
 					if (row < 0 || maze[row][column] != null)
 						continue;
-					newCell = new MazeNode(null, current, null, null, row, column);
+					newCell = new MazeNode(row, column);
+					current.connect(newCell, Direction.NORTH);
 				}
 				else if (randomDirection == Direction.SOUTH)
 				{
 					row++;
 					if (row >= length || maze[row][column] != null)
 						continue;
-					newCell = new MazeNode(current, null, null, null, row, column);
+					newCell = new MazeNode(row, column);
+					current.connect(newCell, Direction.SOUTH);
 				}
 				else if (randomDirection == Direction.WEST)
 				{
 					column--;
 					if (column < 0 || maze[row][column] != null)
 						continue;
-					newCell = new MazeNode(null, null, null, current, row, column);
+					newCell = new MazeNode(row, column);
+					current.connect(newCell, Direction.WEST);
 				}
 				else if (randomDirection == Direction.EAST)
 				{
 					column++;
 					if (column >= width || maze[row][column] != null)
 						continue;
-					newCell = new MazeNode(null, null, current, null, row, column);
+					newCell = new MazeNode(row, column);
+					current.connect(newCell, Direction.EAST);
 				}
 
 				// look around
 				if (clowise)
-					randomDirection = randomDirection.left();
-				else
 					randomDirection = randomDirection.right();
+				else
+					randomDirection = randomDirection.left();
 			}
 								
 		}

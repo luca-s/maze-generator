@@ -57,12 +57,11 @@ public class MazeNode implements java.io.Serializable {
 	 */
 	public MazeNode(MazeNode north, MazeNode south, MazeNode west,
 			MazeNode east, int r, int c) {
+		this(r, c);
 		connect(north, Direction.NORTH);
 		connect(south, Direction.SOUTH);
 		connect(west, Direction.WEST);
 		connect(east, Direction.EAST);
-		row = r;
-		column = c;
 	}
 
 	/**
@@ -137,32 +136,6 @@ public class MazeNode implements java.io.Serializable {
 		}
 	}
 
-	/**
-	 * La cella in direzione where viene posta a uguale a toJoin.
-	 * 
-	 * @param toJoin
-	 *            il nuovo valore del campo indicato da where
-	 * @param where
-	 *            indica quale campo verra' posto uguale a toJoin, where
-	 *            dovrebbe utilizzare i valori definiti dalla classe direction
-	 */
-	public void set(MazeNode toJoin, Direction where) {
-		switch (where) {
-		case NORTH:
-			north = toJoin;
-			break;
-		case SOUTH:
-			south = toJoin;
-			break;
-		case WEST:
-			west = toJoin;
-			break;
-		case EAST:
-			east = toJoin;
-			break;
-
-		}
-	}
 
 	/**
 	 * ritorna la cella nella direzione indicata da where
@@ -171,7 +144,7 @@ public class MazeNode implements java.io.Serializable {
 	 *            la direzione della cella da ritornare, where dovrebbe
 	 *            utilizzare i valori dei campi della classe direction
 	 */
-	public MazeNode nextCell(Direction where) {
+	public MazeNode getNeighbour(Direction where) {
 		switch (where) {
 		case NORTH:
 			return north;

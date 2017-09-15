@@ -189,9 +189,9 @@ public abstract class graphicMaze extends JPanel {
 
 	/** Sposta il giocatore nella cella in direzione lookAt se non c'e' un muro */
 	protected void move() {
-		if (player.nextCell(lookAt) != null)
+		if (player.getNeighbour(lookAt) != null)
 		{
-			player = player.nextCell(lookAt);
+			player = player.getNeighbour(lookAt);
 		}
 	}
 
