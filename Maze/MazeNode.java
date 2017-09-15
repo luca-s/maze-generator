@@ -1,4 +1,4 @@
-package Labirinto;
+package Maze;
 
 /**
  * Questa classe rappresenta una singola cella del labirinto. Una cella
@@ -7,6 +7,7 @@ package Labirinto;
  * muovere. Se una delle celle adiacenti � null significa che c'e' un muro;
  */
 public class MazeNode implements java.io.Serializable {
+	
 	/** la cella a nord di questa */
 	protected MazeNode north;
 	/** la cella a sud di questa */
@@ -56,10 +57,10 @@ public class MazeNode implements java.io.Serializable {
 	 */
 	public MazeNode(MazeNode north, MazeNode south, MazeNode west,
 			MazeNode east, int r, int c) {
-		connect(north, direction.north);
-		connect(south, direction.south);
-		connect(west, direction.west);
-		connect(east, direction.east);
+		connect(north, Direction.NORTH);
+		connect(south, Direction.SOUTH);
+		connect(west, Direction.WEST);
+		connect(east, Direction.EAST);
 		row = r;
 		column = c;
 	}
@@ -73,25 +74,25 @@ public class MazeNode implements java.io.Serializable {
 	 *            dove verra' connessa la cella toJoin, where dovrebbe
 	 *            utilizzare i valori definiti dalla classe direction
 	 */
-	public void connect(MazeNode toJoin, int where) {
+	public void connect(MazeNode toJoin, Direction where) {
 		if (toJoin == null) {
 			disconnect(where);
 			return;
 		}
 		switch (where) {
-		case direction.north:
+		case NORTH:
 			north = toJoin;
 			toJoin.south = this;
 			break;
-		case direction.south:
+		case SOUTH:
 			south = toJoin;
 			toJoin.north = this;
 			break;
-		case direction.west:
+		case WEST:
 			west = toJoin;
 			toJoin.east = this;
 			break;
-		case direction.east:
+		case EAST:
 			east = toJoin;
 			toJoin.west = this;
 			break;
@@ -106,27 +107,27 @@ public class MazeNode implements java.io.Serializable {
 	 *            dove verra' scollegata la cella, where dovrebbe utilizzare i
 	 *            valori dei campi definiti dalla classe direction
 	 */
-	public void disconnect(int where) {
+	public void disconnect(Direction where) {
 		switch (where) {
-		case direction.north:
+		case NORTH:
 			if (north == null)
 				return;
 			north.south = null;
 			north = null;
 			break;
-		case direction.south:
+		case SOUTH:
 			if (south == null)
 				return;
 			south.north = null;
 			south = null;
 			break;
-		case direction.west:
+		case WEST:
 			if (west == null)
 				return;
 			west.east = null;
 			west = null;
 			break;
-		case direction.east:
+		case EAST:
 			if (east == null)
 				return;
 			east.west = null;
@@ -145,18 +146,18 @@ public class MazeNode implements java.io.Serializable {
 	 *            indica quale campo verra' posto uguale a toJoin, where
 	 *            dovrebbe utilizzare i valori definiti dalla classe direction
 	 */
-	public void set(MazeNode toJoin, int where) {
+	public void set(MazeNode toJoin, Direction where) {
 		switch (where) {
-		case direction.north:
+		case NORTH:
 			north = toJoin;
 			break;
-		case direction.south:
+		case SOUTH:
 			south = toJoin;
 			break;
-		case direction.west:
+		case WEST:
 			west = toJoin;
 			break;
-		case direction.east:
+		case EAST:
 			east = toJoin;
 			break;
 
@@ -170,15 +171,15 @@ public class MazeNode implements java.io.Serializable {
 	 *            la direzione della cella da ritornare, where dovrebbe
 	 *            utilizzare i valori dei campi della classe direction
 	 */
-	public MazeNode nextCell(int where) {
+	public MazeNode nextCell(Direction where) {
 		switch (where) {
-		case direction.north:
+		case NORTH:
 			return north;
-		case direction.south:
+		case SOUTH:
 			return south;
-		case direction.west:
+		case WEST:
 			return west;
-		case direction.east:
+		case EAST:
 			return east;
 		}
 		return null;

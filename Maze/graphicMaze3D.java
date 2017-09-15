@@ -1,9 +1,9 @@
-package Labirinto;
+package Maze;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 
 /**
  * Disegna un labirinto dal suo interno e permette di muoversi con le frecce
@@ -12,8 +12,7 @@ import javax.swing.*;
 public class graphicMaze3D extends graphicMaze implements KeyListener,
 		java.io.Serializable {
 
-	private Color[] color = new Color[4];
-	private String where[] = { "NORTH", "EAST", "SOUTH", "WEST" };
+	private Color[] colours = new Color[4];
 
 	/**
 	 * Crea un componente inizialmente privo di labirinto. 
@@ -45,11 +44,11 @@ public class graphicMaze3D extends graphicMaze implements KeyListener,
 		b.setColor(Color.green);
 		b.fillRect(0, bufferWidth / 2, bufferWidth, bufferWidth / 2);
 
-		// in base a dove � rivolto il giocatore definisco i
+		// in base a dove sia rivolto il giocatore definisco i
 		// colori per le parati di sinistra di destra e di fronte
-		Color cfront = color[lookAt];
-		Color cleft = color[(lookAt + 3) % 4];
-		Color crigth = color[(lookAt + 1) % 4];
+		Color cfront = colours[lookAt.toInt()];
+		Color cleft  = colours[lookAt.left().toInt()];
+		Color crigth = colours[lookAt.right().toInt()];
 
 		MazeNode current = player;
 		MazeNode leftSide = null;
@@ -68,8 +67,8 @@ public class graphicMaze3D extends graphicMaze implements KeyListener,
 
 		while (current != null) {
 
-			leftSide = current.nextCell((lookAt + 3) % 4);
-			rightSide = current.nextCell((lookAt + 1) % 4);
+			leftSide = current.nextCell(lookAt.left());
+			rightSide = current.nextCell(lookAt.right());
 
 			// disegno la parete sinistra
 			if (leftSide == null) {// se c'e' il muro
@@ -158,7 +157,7 @@ public class graphicMaze3D extends graphicMaze implements KeyListener,
 			b.fillPolygon(rx, ry, 4);
 
 			current = current.nextCell(lookAt);
-			if (current == exit && lookAt == direction.east) {
+			if (current == exit && lookAt == Direction.EAST) {
 				cfront = Color.black;
 				break;
 			}
@@ -170,8 +169,8 @@ public class graphicMaze3D extends graphicMaze implements KeyListener,
 		// disegno quello che c'e' di fronte
 		b.setColor(cfront);
 		b.fillRect(lx[0], ly[0], rx[0] - lx[0], ly[3] - ly[0]);
-		// scrivo dove � rivolto il giocatore
-		scrivi(b, "Facing : " + where[lookAt], bufferWidth, bufferWidth * 2 / 3);
+		// scrivo dove sia rivolto il giocatore
+		scrivi(b, "Facing : " + lookAt.toString(), bufferWidth, bufferWidth * 2 / 3);
 
 		// disegno la piantina del labirinto
 		int i = mazeLength > mazeWidth ? mazeLength : mazeWidth;
@@ -202,10 +201,10 @@ public class graphicMaze3D extends graphicMaze implements KeyListener,
 
 	public void setColor(Color c) {
 		// definisco i colori per le pareti
-		color[0] = c.darker();// parete nord
-		color[1] = c.darker().darker();// parete est
-		color[2] = c.darker();// parete sud
-		color[3] = c;// parete ovest
+		colours[0] = c.darker();// parete nord
+		colours[1] = c.darker().darker();// parete est
+		colours[2] = c.darker();// parete sud
+		colours[3] = c;// parete ovest
 		super.setColor(c);
 	}
 
@@ -215,21 +214,25 @@ public class graphicMaze3D extends graphicMaze implements KeyListener,
 	 * posizione del giocatore e viene disegnata quella nuova
 	 */
 	public void keyPressed(KeyEvent e) {
-		// se sono alla fine non mi muovo pi�
-		if (player == exit && lookAt == direction.east)
+		
+		// se sono alla fine non mi muovo piu'
+		if (player == exit && lookAt == Direction.EAST)
+		{
 			return;
+		}
 
-		switch (e.getKeyCode()) {
+		switch (e.getKeyCode())
+		{
 		case KeyEvent.VK_DOWN:
-			lookAt = (lookAt + 2) % 4;
+			lookAt = lookAt.behind();
 			move();
-			lookAt = (lookAt + 2) % 4;
+			lookAt = lookAt.behind();
 			break;
 		case KeyEvent.VK_LEFT:
-			lookAt = (lookAt + 3) % 4;
+			lookAt = lookAt.left();
 			break;
 		case KeyEvent.VK_RIGHT:
-			lookAt = (lookAt + 1) % 4;
+			lookAt = lookAt.right();
 			break;
 		case KeyEvent.VK_UP:
 			move();

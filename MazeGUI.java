@@ -1,15 +1,26 @@
-import Labirinto.*;
-import java.io.*;
-import java.lang.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Container;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.KeyStroke;
+
+import Maze.graphicMaze2D;
+import Maze.graphicMaze3D;
 
 /** questa classe e' un'applicazione che genera dei labirinti e li risolve. */
 
 public class MazeGUI extends JFrame {
 
-	// il componente che si occupa di rappresentare il labirinto
 	private graphicMaze2D labirinth2D = new graphicMaze2D();
 	private graphicMaze3D labirinth3D = new graphicMaze3D();
 	private CardLayout cl = new CardLayout();
@@ -60,72 +71,10 @@ public class MazeGUI extends JFrame {
 	private JMenuBar creaMenuBar() {
 		// aggiungo tutti i menu alla MenuBar
 		JMenuBar barra = new JMenuBar();
-		barra.add(file());
 		barra.add(action());
 		barra.add(view());
 		barra.add(color());
 		return barra;
-	}
-
-	// crea il menu file
-	private JMenu file() {
-
-		JMenuItem save = new JMenuItem("Save...");
-		save.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				boolean saved = true;
-				FileDialog save = new FileDialog(MazeGUI.this, "Save state",
-						FileDialog.SAVE);
-				save.setVisible(true);
-				if (save.getFile() != null)
-					if (is3D)
-						saved = labirinth3D.saveMaze(save.getDirectory()
-								+ save.getFile());
-					else
-						saved = labirinth2D.saveMaze(save.getDirectory()
-								+ save.getFile());
-				else if (!saved) {
-					JOptionPane.showMessageDialog(null,
-							"Impossibile salvare il file");
-				}
-			}
-		});
-		JMenuItem load = new JMenuItem("Load...");
-		load.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				boolean loaded = true;
-				FileDialog load = new FileDialog(MazeGUI.this, "Load state",
-						FileDialog.LOAD);
-				load.setVisible(true);
-				if (is3D)
-					loaded = labirinth3D.setMaze(load.getDirectory()
-							+ load.getFile());
-				else
-					loaded = labirinth2D.setMaze(load.getDirectory()
-							+ load.getFile());
-				if (!loaded) {
-					JOptionPane.showMessageDialog(null,
-							"Impossibile caricare il file");
-				}
-			}
-		});
-		JMenuItem exit = new JMenuItem("Exit ");
-		exit.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_X,
-				ActionEvent.ALT_MASK));
-		exit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-
-		JMenu file = new JMenu("File  ");
-		file.setMnemonic(KeyEvent.VK_F);
-		file.add(load);
-		file.add(save);
-		file.addSeparator();
-		file.add(exit);
-
-		return file;
 	}
 
 	// crea il menu action

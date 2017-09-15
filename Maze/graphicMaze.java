@@ -1,9 +1,17 @@
-package Labirinto;
+package Maze;
 
-import java.io.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+import javax.swing.JPanel;
 
 /**
  * Questo componente da una rappresentazione di un labirinto creato con il
@@ -14,8 +22,8 @@ import javax.swing.*;
  * nel buffer e aggiornare opportunamente i campi bufferWidth e bufferHeight.
  * Dovr� inoltre chiamare il metodo repaint per visualizzare quanto disegnato.
  */
-public abstract class graphicMaze extends JPanel implements
-		java.io.Serializable {
+public abstract class graphicMaze extends JPanel {
+	
 	/** la classe che utilizzo per generare i labirinti */
 	protected Maze m = new Maze();
 	/** Il labirinto creato con la classe Maze */
@@ -30,7 +38,7 @@ public abstract class graphicMaze extends JPanel implements
 	 * direzione in cui e' rivolto il giocatore, si dovrebbero utilizzare i
 	 * valori della classe direction
 	 */
-	protected int lookAt = direction.east;
+	protected Direction lookAt = Direction.EAST;
 	/** uscita del labirinto */
 	protected MazeNode exit;
 	/** un buffer in cui disegnare il labirinto */
@@ -67,7 +75,7 @@ public abstract class graphicMaze extends JPanel implements
 		if (buffer == null)
 			return;
 
-		if (player == exit && lookAt == direction.east)
+		if (player == exit && lookAt == Direction.EAST)
 			scrivi(b, "You are at the Exit", bufferWidth, bufferHeight / 2);
 
 		int x = (getWidth() - bufferWidth) / 2;
@@ -85,9 +93,9 @@ public abstract class graphicMaze extends JPanel implements
 	 * Scrive la stringa s al centro del contesto grafico g.
 	 * 
 	 * @param g
-	 *            dove verr� scritto s
+	 *            dove verra' scritto s
 	 * @param s
-	 *            ci� che voglio scrivere
+	 *            cio' che voglio scrivere
 	 * @param x
 	 *            la larghezza dell'immagine in cui si deve scrivere
 	 * @param y
@@ -141,67 +149,6 @@ public abstract class graphicMaze extends JPanel implements
 	}
 
 	/**
-	 * Visualizza il labirinto salvato nel file fileName
-	 * 
-	 * @param fileName
-	 *            il nome del file generato da saveMaze(String)
-	 * @return true se l'operazione e' andata a buon fine, false altrimenti
-	 */
-	public boolean setMaze(String fileName) {
-		try {
-			FileInputStream fileIn = new FileInputStream(fileName);
-			ObjectInputStream in = new ObjectInputStream(fileIn);
-
-			maze = (MazeNode[][]) in.readObject();
-			mazeWidth = in.readInt();
-			mazeLength = in.readInt();
-			player = maze[in.readInt()][in.readInt()];
-			lookAt = in.readInt();
-			exit = maze[in.readInt()][in.readInt()];
-
-			fileIn.close();
-			drawMaze();
-			return true;
-		} catch (ClassNotFoundException c) {
-			return false;
-		} catch (IOException i) {
-			return false;
-		}
-	}
-
-	/**
-	 * Salva nel file filename il labirinto e la posizione del giocatore.
-	 * 
-	 * @param fileName
-	 *            il nome del file in cui vengono salvati i dati
-	 * @return true se l'operazione e' andata a buon fine, false altrimenti
-	 */
-	public boolean saveMaze(String fileName) {
-		if (maze == null)
-			return false;
-		try {
-			FileOutputStream fileOut = new FileOutputStream(fileName);
-			ObjectOutputStream out = new ObjectOutputStream(fileOut);
-
-			out.writeObject(maze);
-			out.writeInt(mazeWidth);
-			out.writeInt(mazeLength);
-			out.writeInt(player.row);
-			out.writeInt(player.column);
-			out.writeInt(lookAt);
-			out.writeInt(exit.row);
-			out.writeInt(exit.column);
-
-			out.flush();
-			fileOut.close();
-			return true;
-		} catch (IOException i) {
-			return false;
-		}
-
-	}
-
-	/**
 	 * Permette di selezionare la classe che genera i labirinti. Se m e' uguale
 	 * a null non viene cambiato il generatore di labirinti.
 	 * 
@@ -234,7 +181,7 @@ public abstract class graphicMaze extends JPanel implements
 		mazeLength = length;
 		maze = m.create(mazeLength, mazeWidth);
 		player = maze[0][0];
-		lookAt = direction.east;
+		lookAt = Direction.EAST;
 		exit = maze[(int) (Math.random() * (double) mazeLength)][mazeWidth - 1];
 		exit.east = exit;
 		drawMaze();
@@ -243,8 +190,9 @@ public abstract class graphicMaze extends JPanel implements
 	/** Sposta il giocatore nella cella in direzione lookAt se non c'e' un muro */
 	protected void move() {
 		if (player.nextCell(lookAt) != null)
+		{
 			player = player.nextCell(lookAt);
-
+		}
 	}
 
 }

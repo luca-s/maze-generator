@@ -1,9 +1,9 @@
 package Maze;
 
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.image.*;
-import javax.swing.*;
+import java.awt.Color;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.image.BufferedImage;
 
 /**
  * Disegna un labirinto dall'alto e permette di muoversi al suo interno con le
@@ -117,10 +117,11 @@ public class graphicMaze2D extends graphicMaze implements KeyListener,
 		if (current.east != prew)
 			e = DeepFirstSearch(current, current.east);
 
-		if (!(n | s | w | e))// se non faccio parte del cammino d'uscita
-			// mi cancello
+		if (!(n | s | w | e))// se non faccio parte del cammino d'uscita mi cancello
+		{
 			b.fillRect(current.column * zoom, current.row * zoom, zoom, zoom);
-
+		}
+		
 		return n | s | w | e;
 	}
 
@@ -131,7 +132,7 @@ public class graphicMaze2D extends graphicMaze implements KeyListener,
 	 */
 	public void keyPressed(KeyEvent e) {
 
-		if (player == exit && lookAt == direction.east)
+		if (player == exit && lookAt == Direction.EAST)
 			return;
 		// cancello la vecchia posizione del giocatore
 		b.setXORMode(Color.red);
@@ -140,16 +141,16 @@ public class graphicMaze2D extends graphicMaze implements KeyListener,
 
 		switch (e.getKeyCode()) {
 		case KeyEvent.VK_DOWN:
-			lookAt = direction.south;
+			lookAt = Direction.SOUTH;
 			break;
 		case KeyEvent.VK_LEFT:
-			lookAt = direction.west;
+			lookAt = Direction.WEST;
 			break;
 		case KeyEvent.VK_RIGHT:
-			lookAt = direction.east;
+			lookAt = Direction.EAST;
 			break;
 		case KeyEvent.VK_UP:
-			lookAt = direction.north;
+			lookAt = Direction.NORTH;
 			break;
 		}
 
