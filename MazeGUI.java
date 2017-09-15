@@ -46,8 +46,9 @@ public class MazeGUI extends JFrame {
 
 	// metto la visuale del labirinto dall'alto
 	private void over() {
-		if (!is3D)
+		if (!is3D) {
 			return;
+		}
 		removeKeyListener(labirinth3D);
 		addKeyListener(labirinth2D);
 		cl.show(p, "2D");

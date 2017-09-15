@@ -1,4 +1,4 @@
-package Labirinto;
+package Maze;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -19,19 +19,10 @@ public class graphicMaze2D extends graphicMaze implements KeyListener,
 	protected int zoom = 20;
 
 	/**
-	 * Crea un componente inizialmente privo di labirinto. Fino a che non viene
-	 * invocato il metodo newMaze il componente visualizza l'immagine
-	 * "maze1.jpg"
+	 * Crea un componente inizialmente privo di labirinto.
 	 */
 	public graphicMaze2D() {
-		Toolkit t = Toolkit.getDefaultToolkit();
-		buffer = t.getImage("./maze1.jpg");
-		MediaTracker m = new MediaTracker(this);
-		m.addImage(buffer, 1);
-		try {
-			m.waitForAll();
-		} catch (InterruptedException e) {
-		}
+		setColor(backgroundColor);
 	}
 
 	protected void drawMaze() {// disegno la vista dall'alto

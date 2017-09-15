@@ -16,20 +16,10 @@ public class graphicMaze3D extends graphicMaze implements KeyListener,
 	private String where[] = { "NORTH", "EAST", "SOUTH", "WEST" };
 
 	/**
-	 * Crea un componente inizialmente privo di labirinto. Fino a che non viene
-	 * invocato il metodo newMaze il componente visualizza l'immagine
-	 * "maze2.jpg"
+	 * Crea un componente inizialmente privo di labirinto. 
 	 */
 	public graphicMaze3D() {
 		setColor(backgroundColor);
-		Toolkit t = Toolkit.getDefaultToolkit();
-		buffer = t.getImage("./maze2.jpg");
-		MediaTracker m = new MediaTracker(this);
-		m.addImage(buffer, 1);
-		try {
-			m.waitForAll();
-		} catch (InterruptedException e) {
-		}
 	}
 
 	protected void drawMaze() {

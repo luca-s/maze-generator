@@ -1,4 +1,4 @@
-import Labirinto.*;
+import Maze.*;
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
