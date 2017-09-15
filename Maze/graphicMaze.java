@@ -76,7 +76,7 @@ public abstract class graphicMaze extends JPanel {
 			return;
 
 		if (player == exit && lookAt == Direction.EAST)
-			scrivi(b, "You are at the Exit", bufferWidth, bufferHeight / 2);
+			printMessage(b, "You are at the Exit", bufferWidth, bufferHeight / 2);
 
 		int x = (getWidth() - bufferWidth) / 2;
 		if (x < 0)
@@ -101,7 +101,7 @@ public abstract class graphicMaze extends JPanel {
 	 * @param y
 	 *            a che altezza voglio scrivere s
 	 */
-	protected void scrivi(Graphics g, String s, int x, int y) {
+	protected void printMessage(Graphics g, String s, int x, int y) {
 		if (g == null)
 			return;
 		x = (x - g.getFontMetrics().stringWidth(s)) / 2;
@@ -137,7 +137,7 @@ public abstract class graphicMaze extends JPanel {
 	 * @param gm
 	 *            il graphicMaze di cui vogliamo rappresentare il labirinto
 	 */
-	public void setMaze(graphicMaze gm) {
+	public void setFromMaze(graphicMaze gm) {
 		maze = gm.maze;
 		mazeWidth = gm.mazeWidth;
 		mazeLength = gm.mazeLength;

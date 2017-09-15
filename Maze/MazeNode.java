@@ -18,9 +18,9 @@ public class MazeNode implements java.io.Serializable {
 	protected MazeNode east;
 
 	/** l'indice di riga dell'array rappresentante il labirinto */
-	public int row;
+	public final int row;
 	/** l'indice di colonna dell'array rappresentante il labirinto */
-	public int column;
+	public final int column;
 
 	/**
 	 * crea una cella isolata. r(row) e c(column) rappresentano la posizione

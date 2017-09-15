@@ -170,7 +170,7 @@ public class graphicMaze3D extends graphicMaze implements KeyListener,
 		b.setColor(cfront);
 		b.fillRect(lx[0], ly[0], rx[0] - lx[0], ly[3] - ly[0]);
 		// scrivo dove sia rivolto il giocatore
-		scrivi(b, "Facing : " + lookAt.toString(), bufferWidth, bufferWidth * 2 / 3);
+		printMessage(b, "Facing : " + lookAt.toString(), bufferWidth, bufferWidth * 2 / 3);
 
 		// disegno la piantina del labirinto
 		int i = mazeLength > mazeWidth ? mazeLength : mazeWidth;

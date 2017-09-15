@@ -51,7 +51,7 @@ public class MazeGUI extends JFrame {
 		removeKeyListener(labirinth2D);
 		addKeyListener(labirinth3D);
 		cl.show(p, "3D");
-		labirinth3D.setMaze(labirinth2D);
+		labirinth3D.setFromMaze(labirinth2D);
 		is3D = true;
 	}
 
@@ -63,7 +63,7 @@ public class MazeGUI extends JFrame {
 		removeKeyListener(labirinth3D);
 		addKeyListener(labirinth2D);
 		cl.show(p, "2D");
-		labirinth2D.setMaze(labirinth3D);
+		labirinth2D.setFromMaze(labirinth3D);
 		is3D = false;
 	}
 
