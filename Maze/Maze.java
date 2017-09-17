@@ -76,6 +76,9 @@ public class Maze {
 			}
 			else
 			{
+				// Use previous cell as current one is a dead end
+				// going back one cell makes longer paths compared
+				// to switching to a random cell
 				currentIdx--;
 			}
 			
