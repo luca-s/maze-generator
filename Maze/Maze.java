@@ -107,6 +107,7 @@ public class Maze {
 						continue;
 					newCell = new MazeNode(row, column);
 					current.connect(newCell, Direction.NORTH);
+					break;
 				}
 				else if (randomDirection == Direction.SOUTH)
 				{
@@ -115,6 +116,7 @@ public class Maze {
 						continue;
 					newCell = new MazeNode(row, column);
 					current.connect(newCell, Direction.SOUTH);
+					break;
 				}
 				else if (randomDirection == Direction.WEST)
 				{
@@ -123,6 +125,7 @@ public class Maze {
 						continue;
 					newCell = new MazeNode(row, column);
 					current.connect(newCell, Direction.WEST);
+					break;
 				}
 				else if (randomDirection == Direction.EAST)
 				{
@@ -131,6 +134,7 @@ public class Maze {
 						continue;
 					newCell = new MazeNode(row, column);
 					current.connect(newCell, Direction.EAST);
+					break;
 				}
 
 				// look around
