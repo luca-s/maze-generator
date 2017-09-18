@@ -80,14 +80,16 @@ public class Maze {
 				// going back one cell makes longer paths compared
 				// to switching to a random cell
 				currentIdx--;
+				// alternative approach, it like this less
+				//currentIdx = -1; 
 			}
-			
+
 			if (currentIdx < 0)
 			{
 				// Pick a random cell from the already visited ones
 				currentIdx = random.nextInt(visitedCells.size());
 			}
-			
+
 			MazeNode current = visitedCells.get(currentIdx);
 			newCell = null;
 
