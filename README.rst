@@ -1,6 +1,20 @@
 A maze generator game
 =====================
 
+Compile
+
+::
+
+    javac Maze/*java
+    javac *java
+
+Run
+
+::
+
+    java MazeGUI 
+
+
 .. image:: https://github.com/luca-s/maze-generator/raw/master/gui1.png
 
 
