@@ -60,7 +60,7 @@ public class Maze {
 		
 		MazeNode newCell = new MazeNode(row, column);
 		int currentIdx = -1;
-		
+
 		// until we have visited all the cells in the maze
 		while (visitedCells.size() < length * width)
 		{
@@ -83,7 +83,7 @@ public class Maze {
 				// alternative approach, it like this less
 				//currentIdx = -1; 
 			}
-
+		
 			if (currentIdx < 0)
 			{
 				// Pick a random cell from the already visited ones
@@ -104,6 +104,10 @@ public class Maze {
 			{
 				row    = current.row;
 				column = current.column;
+				
+				// look around
+				randomDirection = clowise ? randomDirection.right()
+						                  : randomDirection.left();
 				
 				if (randomDirection == Direction.NORTH)
 				{
@@ -141,12 +145,7 @@ public class Maze {
 					current.connect(newCell, Direction.EAST);
 					break;
 				}
-
-				// look around
-				if (clowise)
-					randomDirection = randomDirection.right();
-				else
-					randomDirection = randomDirection.left();
+			
 			}
 								
 		}
